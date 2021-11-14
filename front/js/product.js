@@ -46,7 +46,7 @@ fetch(`http://localhost:3000/api/products/${id}`)
 
         const pulldown = document.getElementById('colors');
 
-       const addPulldown(object.colors);
+        addPulldown(object.colors);
 
         pulldown.addEventListener('change', handlePullDown)
     }
