@@ -34,8 +34,13 @@ function createCards (cartArray) {
         settings.classList.add('cart__item__content__settings');
         const qtyHolder = document.createElement('div');
         qtyHolder.classList.add('cart__item__content__settings__quantity');
-        const qty = document.createElement('p');
-        qty.innerText = cartArray[index].qty;
+        const qty = document.createElement('input');
+        qty.classList.add('itemQuantity');
+        qty.setAttribute('type', 'number');
+        qty.setAttribute('value', cartArray[index].qty);
+        qty.setAttribute('min', '1');
+        qty.setAttribute('max', '100');
+        qty.addEventListener('change', changeQty)
         qtyHolder.appendChild(qty);
         settings.appendChild(qtyHolder);
         itemHolder.appendChild(settings);
@@ -60,6 +65,18 @@ function createCards (cartArray) {
         // cartItem.appendChild(productHolder);
         // cartItem.appendChild(imgHolder);
     }
+}
+
+function changeQty(ev) {
+    console.log(ev.target.value)
+    //change qty in local storage
+    
+}
+
+function syncCart(){
+    cartStr = JSON.stringify(cartArray);
+    localStorage.setItem('cart', cartStr);
+    cartArray = JSON.parse(localStorage.getItem('cart'));
 }
 
 createCards(cartArray);

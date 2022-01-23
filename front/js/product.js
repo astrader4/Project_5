@@ -1,11 +1,9 @@
 const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 
-// getting cart
 let cartStr = localStorage.getItem('cart') || '[]';
 let cartArray = JSON.parse(cartStr);
 
-// creating object that represents product
 const product = {
     name: '',
     imageUrl: '',
@@ -15,6 +13,7 @@ const product = {
     color: '',
     qty: 1
 }
+
 fetch(`http://localhost:3000/api/products/${id}`)
     .then((response) => {
         return response.json()
@@ -64,7 +63,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
     }
 
     function addPulldown(colorArray){
-        // this is the select in the HTML
         const pulldown = document.getElementById('colors');
         pulldown.addEventListener('change', handlePullDown);
 
@@ -106,8 +104,31 @@ fetch(`http://localhost:3000/api/products/${id}`)
 
     // function that handles add to cart click
     function checkCart(event) {
-        console.log(event.target);
-        cartArray.push(product);
+        let addToCart = true;
+        console.log(event.target, addToCart);
+        // cartArray.push(product);
+       
+
+        for (let i = 0; i < cartArray.length; i++) {
+            if (product.id === cartArray[i].id && 
+                product.color === cartArray[i].color){
+                    cartArray[i].qty = product.qty;
+                    addToCart = false;
+                }
+            
+        }
+
+        if (addToCart) {
+            console.log(cartArray);
+            cartArray.push(product);
+        }
+
+        syncCart();
+
+    }
+
+    function syncCart(){
         cartStr = JSON.stringify(cartArray);
         localStorage.setItem('cart', cartStr);
+        cartArray = JSON.parse(localStorage.getItem('cart'));
     }
