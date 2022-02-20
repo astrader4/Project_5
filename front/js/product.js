@@ -106,7 +106,6 @@ fetch(`http://localhost:3000/api/products/${id}`)
     function checkCart(event) {
         let addToCart = true;
         console.log(event.target, addToCart);
-        // cartArray.push(product);
        
 
         for (let i = 0; i < cartArray.length; i++) {
